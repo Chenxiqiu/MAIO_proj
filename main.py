@@ -3,7 +3,8 @@ import numpy as np, matplotlib.pyplot as plt, math as m
 #meteo
 year = np.array([])
 month = np.array([])
-day = np.array([]) #day of year,xxx(.0-.99) 
+day = np.array([]) 
+time = np.array([]) #day of year,xxx(.0-.99) 
 p0 = np.array([]) #see level pressure
 RAIN = np.array([]) #precipitation, mm
 RDUR = np.array([]) #rain duration, s
@@ -14,7 +15,8 @@ F10 = np.array([]) #wind speed at 10m, m/s
 D10 = np.array([]) #wind direction at 10m, degree
 #surface fluxes
 UST = np.array([]) #friction velocity, m/s
-FCO2 = np.array([]) #CO2 flux, mg m-2 s-1
+FC = np.array([]) #CO2 flux, mg m-2 s-1
+accum_FC = np.array([]) 
 SHF = np.array([]) #sensible heat flux, W/m2
 LHF = np.array([]) #latent heat flux, W/m2
 G = np.array([]) #sub-surface heat flux, W/m2
@@ -23,25 +25,28 @@ NET = np.array([]) #net radiation, W/m2
 f1=open('surface_meteo.txt','r')
 for line in f1:
     line=line.split(';')
-    year = np.append(year, float(line[1]))
-    month = np.append(month, float(line[2])) 
-    day = np.append(day, float(line[3])) 
-    p0 = np.append(p0, float(line[4]))
-    RAIN = np.append(RAIN, float(line[5]))
-    RDUR = np.append(RDUR, float(line[6]))
-    SWD = np.append(SWD, float(line[7]))
-    TA2 = np.append(TA2, float(line[8]))
-    TD2 = np.append(TD2, float(line[9]))
-    F10 = np.append(F10, float(line[10]))
+    year = np.append(year, float(line[0]))
+#    month = np.append(month, float(line[1])) 
+#    day = np.append(day, float(line[2])) 
+    time = np.append(time,float(line[3]))
+#    p0 = np.append(p0, float(line[4]))
+#    RAIN = np.append(RAIN, float(line[5]))
+#    RDUR = np.append(RDUR, float(line[6]))
+#    SWD = np.append(SWD, float(line[7]))
+#    TA2 = np.append(TA2, float(line[8]))
+#    TD2 = np.append(TD2, float(line[9]))
+#    F10 = np.append(F10, float(line[10]))
 #    D10 = np.append(D10, float(line[11]))
 f1.close()
 f2=open('surface_flux.txt','r')
 for line in f2:
     line=line.split(';')
-    UST = np.append(UST, float(line[4]))
-    FCO2 = np.append(FCO2, float(line[5]))
-    SHF = np.append(SHF, float(line[6]))
-    LHF = np.append(LHF, float(line[7]))
-    G = np.append(G, float(line[8]))
-    NET = np.append(NET, float(line[9]))
+#    UST = np.append(UST, float(line[4]))
+    FC = np.append(FC, float(line[5]))
+#    SHF = np.append(SHF, float(line[6]))
+#    LHF = np.append(LHF, float(line[7]))
+#    G = np.append(G, float(line[8]))
+#    NET = np.append(NET, float(line[9]))
 f2.close()
+accum_FC = np.cumsum(FC)
+plt.plot(time[0:52704],accum_FC[0:52704])
